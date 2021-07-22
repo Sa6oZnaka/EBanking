@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using User = EBanking.Data.Entities.User;
 using UserAccount = EBanking.Data.Entities.UserAccount;
+using Transaction = EBanking.Data.Entities.Transaction;
+using TransactionType = EBanking.Data.Entities.TransactionType;
 using EBankingDbContext = EBanking.Data.EBankingDbContext;
 
 namespace EBanking
@@ -37,6 +39,39 @@ namespace EBanking
             return _users.Any(u => u.Username == username && u.Password == password);
         }
 
+        bool sendToUser(Guid senderAccount, Guid receiverAccount, decimal amount)
+        {
+            if(userAccoutExist(senderAccount) && userAccoutExist(receiverAccount) && amount > 0)
+            {
+                // insufficient funds
+                if (getUserBalance(senderAccount) < amount)
+                    return false;
+
+                updateBalance(senderAccount, -amount);
+                updateBalance(receiverAccount, amount);
+
+                addTransaction(senderAccount, receiverAccount, -amount, TransactionType.Debit);
+                addTransaction(receiverAccount, senderAccount, amount, TransactionType.Credit);
+
+                return true;
+            }
+            return false;
+        }
+
+        void addTransaction(Guid myAccount, Guid otherAccount, decimal amount, TransactionType type)
+        {
+            Transaction tx = new Transaction();
+            tx.UserAccountId = getUserAccountId(myAccount);
+            tx.Key = Guid.NewGuid();
+            tx.Type = type;
+            tx.Amount = amount;
+            if (type == TransactionType.Credit)
+                tx.SystemComment = "Trnsaction from " + otherAccount + " to " + myAccount;
+            else
+                tx.SystemComment = "Trnsaction from " + myAccount + " to " + otherAccount;
+        }
+
+
         bool addUserAccount(string username, string userAccountName, Guid key)
         {
             if (userExist(username))
@@ -55,9 +90,41 @@ namespace EBanking
             return false;
         }
 
+        bool updateBalance(Guid account, decimal amount)
+        {
+            if (!userAccoutExist(account)) return false;
+
+            UserAccount userAccount = getUserAccount(account);
+            userAccount.Balance = Decimal.Add(userAccount.Balance, amount);
+            _db.UserAccounts.Update(userAccount);
+
+            return false;
+        }
+
+
         int getUserID(string username)
         {
             return _users.Find(u => u.Username == username).Id;
+        }
+
+        bool userAccoutExist(Guid key)
+        {
+            return _userAccounts.Any(ua => ua.Key == key);
+        }
+
+        int getUserAccountId(Guid key)
+        {
+            return getUserAccount(key).Id;
+        }
+
+        decimal getUserBalance(Guid key)
+        {
+            return getUserAccount(key).Balance;
+        }
+
+        UserAccount getUserAccount(Guid key)
+        {
+            return _userAccounts.Find(ua => ua.Key == key);
         }
 
         bool userExist(string username)
