@@ -20,12 +20,15 @@ namespace EBanking
 
             _users = _db.Users.All.ToList();
 
-            
             //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
-            //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
-            //Console.WriteLine(addUser("Alex2", "12345", "Random Name", "test@test.test"));
-
             Console.WriteLine("Users: " + _users.Count);
+        }
+
+        bool userExist(string username)
+        {
+            if (_users.Any(u => u.Username == username))
+                return false;
+            return true;
         }
 
         bool addUser(string username, string password, string fullname, string email)
@@ -39,8 +42,8 @@ namespace EBanking
                 u.Password = password;
                 u.FullName = fullname;
                 u.Email = email;
-                // TODO get the date
-                //u.DateRegistered = 
+
+                // Add new user
                 _users.Add(u);
                 _db.Users.Insert(u);
                 return true;
@@ -79,7 +82,7 @@ namespace EBanking
                 return false;
 
             // Already exists
-            if (_users.Any(u => u.Username == username))
+            if (userExist(username))
                 return false;
 
             return true;
