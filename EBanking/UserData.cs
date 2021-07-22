@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using User = EBanking.Data.Entities.User;
+using UserAccount = EBanking.Data.Entities.UserAccount;
 using EBankingDbContext = EBanking.Data.EBankingDbContext;
 
 namespace EBanking
@@ -13,28 +14,59 @@ namespace EBanking
     {
 
         List<User> _users;
+        List<UserAccount> _userAccounts;
         EBankingDbContext _db = new EBankingDbContext("./db.txt");
 
         public UserData()
         {
-
             _users = _db.Users.All.ToList();
+            _userAccounts = _db.UserAccounts.All.ToList();
 
+            // Inserts
             //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
+            //Console.WriteLine(addUserAccount("Alex1", "Savings", Guid.NewGuid()));
+
+            Console.WriteLine("Auth:  " + authenticate("Alex1", "123456"));
+            Console.WriteLine("Auth:  " + authenticate("Alex1", "12345"));
             Console.WriteLine("Users: " + _users.Count);
+            Console.WriteLine("UsersAccounts: " + _userAccounts.Count);
+        }
+
+        bool authenticate(string username, string password)
+        {
+            return _users.Any(u => u.Username == username && u.Password == password);
+        }
+
+        bool addUserAccount(string username, string userAccountName, Guid key)
+        {
+            if (userExist(username))
+            {
+                UserAccount account = new UserAccount();
+                account.UserId = getUserID(username);
+                account.Key = key;
+                account.FriendlyName = userAccountName;
+                account.Balance = 0;
+
+                _userAccounts.Add(account);
+                _db.UserAccounts.Insert(account);
+
+                return true;
+            }
+            return false;
+        }
+
+        int getUserID(string username)
+        {
+            return _users.Find(u => u.Username == username).Id;
         }
 
         bool userExist(string username)
         {
-            if (_users.Any(u => u.Username == username))
-                return false;
-            return true;
+            return _users.Any(u => u.Username == username);
         }
 
         bool addUser(string username, string password, string fullname, string email)
         {
-            Console.WriteLine(validUsername(username));
-
             if (validUsername(username))
             {
                 User u = new User();
