@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using User = EBanking.Data.Entities.User;
-
+using EBankingDbContext = EBanking.Data.EBankingDbContext;
 
 namespace EBanking
 {
@@ -13,20 +13,19 @@ namespace EBanking
     {
 
         List<User> _users;
+        EBankingDbContext _db = new EBankingDbContext("./db.txt");
 
         public UserData()
         {
-            _users = new List<User>();
-            Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
-            Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
-            Console.WriteLine(addUser("Alex2", "12345", "Random Name", "test@test.test"));
+
+            _users = _db.Users.All.ToList();
+
+            
+            //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
+            //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
+            //Console.WriteLine(addUser("Alex2", "12345", "Random Name", "test@test.test"));
 
             Console.WriteLine("Users: " + _users.Count);
-        }
-
-        int getLastID()
-        {
-            return _users.Count;
         }
 
         bool addUser(string username, string password, string fullname, string email)
@@ -36,7 +35,6 @@ namespace EBanking
             if (validUsername(username))
             {
                 User u = new User();
-                u.Id = getLastID();
                 u.Username = username;
                 u.Password = password;
                 u.FullName = fullname;
@@ -44,6 +42,7 @@ namespace EBanking
                 // TODO get the date
                 //u.DateRegistered = 
                 _users.Add(u);
+                _db.Users.Insert(u);
                 return true;
             }
             return false;
@@ -85,9 +84,6 @@ namespace EBanking
 
             return true;
         }
-
-
-
 
     }
 }

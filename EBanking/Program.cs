@@ -21,7 +21,7 @@ namespace EBanking
             //Application.Run(new FormRegister());
 
             UserData ud = new UserData();
-            Console.WriteLine("ZELE");
+            Console.WriteLine("OK");
         }
 
     }

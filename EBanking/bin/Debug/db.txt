@@ -1,0 +1,1 @@
+{"UserSeq":2,"UserAccountSeq":0,"TransactionSeq":0,"Users":[{"Id":1,"Username":"Alex1","Password":"12345","FullName":"Random Name","Email":"test@test.test","DateRegistered":"0001-01-01T00:00:00"},{"Id":2,"Username":"Alex2","Password":"12345","FullName":"Random Name","Email":"test@test.test","DateRegistered":"0001-01-01T00:00:00"}],"UserAccounts":[],"Transactions":[]}
