@@ -4,24 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using EBankingDbContext = EBanking.Data.EBankingDbContext;
-using UserAccount = EBanking.Data.Entities.UserAccount;
+using EBanking.Data.Entities;
+using EBanking.Data;
+using EBanking.Data.Interfaces;
 
 namespace EBanking
 {
     class UserAccounts
     {
 
-        EBankingDbContext _db;
-        List<UserAccount> _userAccounts;
-        Transactions _transactions;
+        IEBankingDbContext _db;
 
-        public UserAccounts(EBankingDbContext db)
+        public List<UserAccount> All {
+            get
+            {
+                return _db.UserAccounts.All.ToList();
+            }
+        }
+
+        public decimal WithdrawFee {
+            get
+            {
+                return 0.1m;
+            } 
+        }
+
+        public UserAccounts(IEBankingDbContext db)
         {
             _db = db;
-            _userAccounts = _db.UserAccounts.All.ToList();
-
-            _transactions = new Transactions(db);
         }
 
         public bool sendToUser(Guid senderAccount, Guid receiverAccount, decimal amount)
@@ -38,8 +48,24 @@ namespace EBanking
                 updateBalance(senderAccount, -amount);
                 updateBalance(receiverAccount, amount);
 
-                _transactions.add(senderAccount, receiverAccount, -amount, null, getUserAccountId(senderAccount));
-                _transactions.add(receiverAccount, senderAccount, amount, null, getUserAccountId(receiverAccount));
+                Transaction txSender = new Transaction();
+                txSender.UserAccountId = getUserAccountId(senderAccount);
+                txSender.Key = Guid.NewGuid();
+                txSender.Type = TransactionType.Debit;
+                txSender.Amount = amount;
+                txSender.EventDate = DateTime.Now;
+                txSender.SystemComment = "Transaction from " + senderAccount + " to " + receiverAccount;
+
+                Transaction txReceiver = new Transaction();
+                txReceiver.UserAccountId = getUserAccountId(receiverAccount);
+                txReceiver.Key = Guid.NewGuid();
+                txReceiver.Type = TransactionType.Credit;
+                txReceiver.Amount = amount;
+                txReceiver.EventDate = DateTime.Now;
+                txReceiver.SystemComment = "Transaction from " + senderAccount + " to " + receiverAccount;
+
+                _db.Transactions.Insert(txSender);
+                _db.Transactions.Insert(txReceiver);
 
                 return true;
             }
@@ -51,7 +77,17 @@ namespace EBanking
             if (userAccoutExist(receiverAccount) && amount > 0)
             {
                 updateBalance(receiverAccount, amount);
-                _transactions.add(receiverAccount, null, amount, null, getUserAccountId(receiverAccount));
+                
+                Transaction txReceiver = new Transaction();
+                txReceiver.UserAccountId = getUserAccountId(receiverAccount);
+                txReceiver.Key = Guid.NewGuid();
+                txReceiver.Type = TransactionType.Credit;
+                txReceiver.Amount = amount;
+                txReceiver.EventDate = DateTime.Now;
+                txReceiver.SystemComment = "Deposit to " + receiverAccount;
+
+                _db.Transactions.Insert(txReceiver);
+
                 return true;
             }
             return false;
@@ -59,10 +95,26 @@ namespace EBanking
 
         public bool withdraw(Guid senderAccount, decimal amount)
         {
-            if (userAccoutExist(senderAccount) && amount > 0 && getUserBalance(senderAccount) >= Decimal.Add(amount, _transactions.Tax))
+            if (userAccoutExist(senderAccount) && amount > 0 && getUserBalance(senderAccount) >= Decimal.Add(amount, WithdrawFee))
             {
-                updateBalance(senderAccount, -Decimal.Add(amount, _transactions.Tax));
-                _transactions.add(senderAccount, null, -amount, null, getUserAccountId(senderAccount));
+                updateBalance(senderAccount, -Decimal.Add(amount, WithdrawFee));
+
+                Transaction txSender = new Transaction();
+                txSender.UserAccountId = getUserAccountId(senderAccount);
+                txSender.Key = Guid.NewGuid();
+                txSender.Type = TransactionType.Debit;
+                txSender.Amount = amount;
+                txSender.EventDate = DateTime.Now;
+                txSender.SystemComment = "Withdraw from " + senderAccount;
+
+                Transaction txFee = new Transaction();
+                txFee.UserAccountId = txSender.UserAccountId;
+                txFee.Key = txSender.Key;
+                txFee.Type = TransactionType.Debit;
+                txFee.Amount = WithdrawFee;
+                txFee.EventDate = DateTime.Now;
+                txFee.SystemComment = "Transaction fee";
+
                 return true;
             }
             return false;
@@ -76,7 +128,7 @@ namespace EBanking
             account.FriendlyName = userAccountName;
             account.Balance = 0;
 
-            _userAccounts.Add(account);
+            All.Add(account);
             _db.UserAccounts.Insert(account);
         }
 
@@ -93,7 +145,7 @@ namespace EBanking
 
         private bool userAccoutExist(Guid key)
         {
-            return _userAccounts.Any(ua => ua.Key == key);
+            return All.Any(ua => ua.Key == key);
         }
 
         private int getUserAccountId(Guid key)
@@ -107,7 +159,7 @@ namespace EBanking
 
         private UserAccount getUserAccount(Guid key)
         {
-            return _userAccounts.Find(ua => ua.Key == key);
+            return All.Find(ua => ua.Key == key);
         }
 
     }

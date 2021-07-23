@@ -2,7 +2,7 @@
 
 namespace EBanking.Data.Interfaces
 {
-    public interface IEbankingDbContext : IDbContext
+    public interface IEBankingDbContext : IDbContext
     {
         IEntitySet<int, User> Users { get; }
         IEntitySet<int, UserAccount> UserAccounts { get; }

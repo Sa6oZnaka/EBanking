@@ -6,7 +6,7 @@ using EBanking.Data.Sets;
 
 namespace EBanking.Data
 {
-    public class EBankingDbContext : IEbankingDbContext
+    public class EBankingDbContext : IEBankingDbContext
     {
         private readonly DbManager _dbManager;
 

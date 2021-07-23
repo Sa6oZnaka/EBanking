@@ -1,9 +1,0 @@
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\bin\Debug\EBanking.Data.dll
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\bin\Debug\EBanking.Data.pdb
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\obj\Debug\EBanking.Data.csproj.AssemblyReference.cache
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\obj\Debug\EBanking.Data.csproj.CoreCompileInputs.cache
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\obj\Debug\EBanking.Data.csproj.CopyComplete
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\obj\Debug\EBanking.Data.dll
-C:\Users\Alex\Desktop\EBanking\EBanking.Data\obj\Debug\EBanking.Data.pdb
