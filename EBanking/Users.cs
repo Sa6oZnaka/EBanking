@@ -30,22 +30,26 @@ namespace EBanking
             _userAccounts = new UserAccounts(db);
         }
 
-        public bool add(string username, string password, string fullname, string email)
-        {
-            if (validUsername(username))
+        public UserAccounts UserAccounts {
+            get
             {
-                User u = new User();
-                u.Username = username;
-                u.Password = password;
-                u.FullName = fullname;
-                u.Email = email;
-                u.DateRegistered = DateTime.Now;
-
-                // Add new user
-                _db.Users.Insert(u);
-                return true;
+                return _userAccounts;
             }
-            return false;
+        }
+
+        public void add(string username, string password, string fullname, string email)
+        {
+            validateUsername(username);
+            
+            User u = new User();
+            u.Username = username;
+            u.Password = password;
+            u.FullName = fullname;
+            u.Email = email;
+            u.DateRegistered = DateTime.Now;
+
+            _db.Users.Insert(u);
+               
         }
 
         public bool addUserAccount(string username, string userAccountName, Guid key)
@@ -74,10 +78,10 @@ namespace EBanking
             return All.Any(u => u.Username == username);
         }
 
-        private bool validUsername(string username)
+        private void validateUsername(string username)
         {
             if (username.Length < 4 || username.Length > 16)
-                return false;
+                throw new InvalidOperationException("Username length must be between 4 and 16 characters!");
 
             bool containsLetter = false;
             bool containsNumber = false;
@@ -94,18 +98,14 @@ namespace EBanking
                         containsNumber = true;
                 }
                 else
-                    return false;
+                    throw new InvalidOperationException("Username can only contain letters and digits!");
             }
             
-            // Doesn't contain any letter or number
             if (!containsLetter || !containsNumber)
-                return false;
+                throw new InvalidOperationException("Username must contain at least one letter and number!");
 
-            // Already exists
             if (userExist(username))
-                return false;
-
-            return true;
+                throw new InvalidOperationException("Username already used!");
         }
 
     }

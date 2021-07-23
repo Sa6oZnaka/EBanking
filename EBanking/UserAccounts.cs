@@ -115,6 +115,9 @@ namespace EBanking
                 txFee.EventDate = DateTime.Now;
                 txFee.SystemComment = "Transaction fee";
 
+                _db.Transactions.Insert(txSender);
+                _db.Transactions.Insert(txFee);
+
                 return true;
             }
             return false;
