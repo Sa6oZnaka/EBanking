@@ -19,6 +19,7 @@ namespace EBanking
         List<UserAccount> _userAccounts;
         List<Transaction> _transactions;
         EBankingDbContext _db = new EBankingDbContext("./db.txt");
+        decimal _tax;
 
         public UserData()
         {
@@ -26,6 +27,7 @@ namespace EBanking
             _userAccounts = _db.UserAccounts.All.ToList();
             _transactions = _db.Transactions.All.ToList();
 
+            _tax = 0.1m;
             // Add user
             //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
 
@@ -33,13 +35,13 @@ namespace EBanking
             //Console.WriteLine(addUserAccount("Alex2", "Savings", Guid.NewGuid()));
 
             // Deposit
-            //Console.WriteLine("Deposit " + deposit(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 1000) );
+            Console.WriteLine("Deposit " + deposit(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 1000) );
 
             // Add transaction
-            //Console.WriteLine("TX " + sendToUser(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), Guid.Parse("8e94b850-5dfd-4223-9225-52e659c79495"), 15));
+            Console.WriteLine("TX " + sendToUser(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), Guid.Parse("8e94b850-5dfd-4223-9225-52e659c79495"), 15));
 
             // Withdraw
-            //Console.WriteLine("Withdraw " + withdraw(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 200));
+            Console.WriteLine("Withdraw " + withdraw(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 200));
 
             Console.WriteLine("Auth:  " + authenticate("Alex1", "123456"));
             Console.WriteLine("Auth:  " + authenticate("Alex1", "12345"));
@@ -63,8 +65,8 @@ namespace EBanking
                 updateBalance(senderAccount, -amount);
                 updateBalance(receiverAccount, amount);
 
-                addTransaction(senderAccount, receiverAccount, -amount);
-                addTransaction(receiverAccount, senderAccount, amount);
+                addTransaction(senderAccount, receiverAccount, -amount, null);
+                addTransaction(receiverAccount, senderAccount, amount, null);
 
                 return true;
             }
@@ -75,7 +77,7 @@ namespace EBanking
             if (userAccoutExist(receiverAccount) && amount > 0)
             {
                 updateBalance(receiverAccount, amount);
-                addTransaction(receiverAccount, null, amount);
+                addTransaction(receiverAccount, null, amount, null);
                 return true;
             }
             return false;
@@ -83,22 +85,26 @@ namespace EBanking
 
         bool withdraw(Guid senderAccount, decimal amount)
         {
-            if(userAccoutExist(senderAccount) && amount > 0 && getUserBalance(senderAccount) >= amount)
+            if(userAccoutExist(senderAccount) && amount > 0 && getUserBalance(senderAccount) >= Decimal.Add(amount, _tax))
             {
-                updateBalance(senderAccount, -amount);
-                addTransaction(senderAccount, null, -amount);
+                updateBalance(senderAccount, -Decimal.Add(amount,_tax));
+                addTransaction(senderAccount, null, -amount, null);
                 return true;
             }
             return false;
         }
 
 
-        void addTransaction(Guid myAccount, Guid? otherAccount, decimal amount)
+        void addTransaction(Guid myAccount, Guid? otherAccount, decimal amount, Guid? key)
         {
             Transaction tx = new Transaction();
             tx.UserAccountId = getUserAccountId(myAccount);
-            tx.Key = Guid.NewGuid();
             tx.Amount = amount;
+            // check if transaction key is provided (for fee)
+            if (key.HasValue)
+                tx.Key = key.Value;
+            else
+                tx.Key = Guid.NewGuid();
 
             if (amount > 0)
             {
@@ -114,7 +120,12 @@ namespace EBanking
                 if (otherAccount.HasValue)
                     tx.SystemComment = "Transaction from " + myAccount + " to " + otherAccount;
                 else
+                {
                     tx.SystemComment = "Withdraw from " + myAccount;
+                    // Add new transaction for fee
+                    if (!key.HasValue)
+                        addTransaction(myAccount, null, -_tax, tx.Key);
+                }
             }
 
             _db.Transactions.Insert(tx);
