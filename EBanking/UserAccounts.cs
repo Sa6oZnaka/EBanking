@@ -26,6 +26,9 @@ namespace EBanking
 
         public bool sendToUser(Guid senderAccount, Guid receiverAccount, decimal amount)
         {
+            if (Guid.Equals(senderAccount, receiverAccount))
+                return false;
+
             if (userAccoutExist(senderAccount) && userAccoutExist(receiverAccount) && amount > 0)
             {
                 // insufficient funds
