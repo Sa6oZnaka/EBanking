@@ -14,7 +14,6 @@ namespace EBanking
 {
     class UserData
     {
-
         List<User> _users;
         List<UserAccount> _userAccounts;
         List<Transaction> _transactions;
@@ -94,12 +93,12 @@ namespace EBanking
             return false;
         }
 
-
         void addTransaction(Guid myAccount, Guid? otherAccount, decimal amount, Guid? key)
         {
             Transaction tx = new Transaction();
             tx.UserAccountId = getUserAccountId(myAccount);
             tx.Amount = amount;
+            tx.EventDate = DateTime.Now;
             // check if transaction key is provided (for fee)
             if (key.HasValue)
                 tx.Key = key.Value;
@@ -132,7 +131,6 @@ namespace EBanking
             _transactions.Add(tx);
         }
 
-
         bool addUserAccount(string username, string userAccountName, Guid key)
         {
             if (userExist(username))
@@ -161,7 +159,6 @@ namespace EBanking
 
             return false;
         }
-
 
         int getUserID(string username)
         {
@@ -202,6 +199,7 @@ namespace EBanking
                 u.Password = password;
                 u.FullName = fullname;
                 u.Email = email;
+                u.DateRegistered = DateTime.Now;
 
                 // Add new user
                 _users.Add(u);
