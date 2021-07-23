@@ -20,8 +20,7 @@ namespace EBanking
             //Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new FormRegister());
 
-            UserData ud = new UserData();
-            Console.WriteLine("OK");
+            EBank ebank = new EBank();
         }
 
     }
