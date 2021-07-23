@@ -28,12 +28,18 @@ namespace EBanking
 
             // Add user
             //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
-            
+
             // Add user account
             //Console.WriteLine(addUserAccount("Alex2", "Savings", Guid.NewGuid()));
-            
+
+            // Deposit
+            //Console.WriteLine("Deposit " + deposit(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 1000) );
+
             // Add transaction
             //Console.WriteLine("TX " + sendToUser(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), Guid.Parse("8e94b850-5dfd-4223-9225-52e659c79495"), 15));
+
+            // Withdraw
+            //Console.WriteLine("Withdraw " + withdraw(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 200));
 
             Console.WriteLine("Auth:  " + authenticate("Alex1", "123456"));
             Console.WriteLine("Auth:  " + authenticate("Alex1", "12345"));
@@ -57,25 +63,59 @@ namespace EBanking
                 updateBalance(senderAccount, -amount);
                 updateBalance(receiverAccount, amount);
 
-                addTransaction(senderAccount, receiverAccount, -amount, TransactionType.Debit);
-                addTransaction(receiverAccount, senderAccount, amount, TransactionType.Credit);
+                addTransaction(senderAccount, receiverAccount, -amount);
+                addTransaction(receiverAccount, senderAccount, amount);
 
                 return true;
             }
             return false;
         }
 
-        void addTransaction(Guid myAccount, Guid otherAccount, decimal amount, TransactionType type)
+        bool deposit(Guid receiverAccount, decimal amount) {
+            if (userAccoutExist(receiverAccount) && amount > 0)
+            {
+                updateBalance(receiverAccount, amount);
+                addTransaction(receiverAccount, null, amount);
+                return true;
+            }
+            return false;
+        }
+
+        bool withdraw(Guid senderAccount, decimal amount)
+        {
+            if(userAccoutExist(senderAccount) && amount > 0 && getUserBalance(senderAccount) >= amount)
+            {
+                updateBalance(senderAccount, -amount);
+                addTransaction(senderAccount, null, -amount);
+                return true;
+            }
+            return false;
+        }
+
+
+        void addTransaction(Guid myAccount, Guid? otherAccount, decimal amount)
         {
             Transaction tx = new Transaction();
             tx.UserAccountId = getUserAccountId(myAccount);
             tx.Key = Guid.NewGuid();
-            tx.Type = type;
             tx.Amount = amount;
-            if (type == TransactionType.Credit)
-                tx.SystemComment = "Transaction from " + otherAccount + " to " + myAccount;
+
+            if (amount > 0)
+            {
+                tx.Type = TransactionType.Credit;
+                if(otherAccount.HasValue)
+                    tx.SystemComment = "Transaction from " + otherAccount + " to " + myAccount;
+                else
+                    tx.SystemComment = "Deposit to " + myAccount;
+            }
             else
-                tx.SystemComment = "Transaction from " + myAccount + " to " + otherAccount;
+            {
+                tx.Type = TransactionType.Debit;
+                if (otherAccount.HasValue)
+                    tx.SystemComment = "Transaction from " + myAccount + " to " + otherAccount;
+                else
+                    tx.SystemComment = "Withdraw from " + myAccount;
+            }
 
             _db.Transactions.Insert(tx);
             _transactions.Add(tx);
