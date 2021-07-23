@@ -31,16 +31,16 @@ namespace EBanking
             //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
 
             // Add user account
-            //Console.WriteLine(addUserAccount("Alex2", "Savings", Guid.NewGuid()));
+            //Console.WriteLine(addUserAccount("Alex1", "Savings", Guid.NewGuid()));
 
             // Deposit
-            Console.WriteLine("Deposit " + deposit(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 1000) );
+            //Console.WriteLine("Deposit " + deposit(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 1000) );
 
             // Add transaction
-            Console.WriteLine("TX " + sendToUser(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), Guid.Parse("8e94b850-5dfd-4223-9225-52e659c79495"), 15));
+            //Console.WriteLine("TX " + sendToUser(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), Guid.Parse("8e94b850-5dfd-4223-9225-52e659c79495"), 15));
 
             // Withdraw
-            Console.WriteLine("Withdraw " + withdraw(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 200));
+            //Console.WriteLine("Withdraw " + withdraw(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), 200));
 
             Console.WriteLine("Auth:  " + authenticate("Alex1", "123456"));
             Console.WriteLine("Auth:  " + authenticate("Alex1", "12345"));
@@ -96,6 +96,7 @@ namespace EBanking
         void addTransaction(Guid myAccount, Guid? otherAccount, decimal amount, Guid? key)
         {
             Transaction tx = new Transaction();
+            tx.Id = _transactions.Count;
             tx.UserAccountId = getUserAccountId(myAccount);
             tx.Amount = amount;
             tx.EventDate = DateTime.Now;
@@ -195,6 +196,7 @@ namespace EBanking
             if (validUsername(username))
             {
                 User u = new User();
+                u.Id = _users.Count;
                 u.Username = username;
                 u.Password = password;
                 u.FullName = fullname;
@@ -218,21 +220,14 @@ namespace EBanking
             bool containsNumber = false;
             for(int i = 0; i < username.Length; i++)
             {
-                if(username[i] >= 'a' && username[i] <= 'z' || username[i] >= 'A' && username[i] <= 'Z')
-                {
+                if(Char.IsLetter(username[i]))
                     if(! containsLetter)
                         containsLetter = true;
-                }
-                else if (username[i] >= '0' && username[i] <= '9')
-                {
+                else if (Char.IsDigit(username[i]))
                     if (!containsNumber)
                         containsNumber = true;
-                }
-                else
-                {
-                    // contains invalid symbol
+                else 
                     return false;
-                }
             }
             
             // Doesn't contain any letter or number
