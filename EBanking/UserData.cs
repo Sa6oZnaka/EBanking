@@ -17,16 +17,23 @@ namespace EBanking
 
         List<User> _users;
         List<UserAccount> _userAccounts;
+        List<Transaction> _transactions;
         EBankingDbContext _db = new EBankingDbContext("./db.txt");
 
         public UserData()
         {
             _users = _db.Users.All.ToList();
             _userAccounts = _db.UserAccounts.All.ToList();
+            _transactions = _db.Transactions.All.ToList();
 
-            // Inserts
+            // Add user
             //Console.WriteLine(addUser("Alex1", "12345", "Random Name", "test@test.test"));
-            //Console.WriteLine(addUserAccount("Alex1", "Savings", Guid.NewGuid()));
+            
+            // Add user account
+            //Console.WriteLine(addUserAccount("Alex2", "Savings", Guid.NewGuid()));
+            
+            // Add transaction
+            //Console.WriteLine("TX " + sendToUser(Guid.Parse("76be7f2f-28d8-4395-a424-9abe7c536dc9"), Guid.Parse("8e94b850-5dfd-4223-9225-52e659c79495"), 15));
 
             Console.WriteLine("Auth:  " + authenticate("Alex1", "123456"));
             Console.WriteLine("Auth:  " + authenticate("Alex1", "12345"));
@@ -46,7 +53,7 @@ namespace EBanking
                 // insufficient funds
                 if (getUserBalance(senderAccount) < amount)
                     return false;
-
+                
                 updateBalance(senderAccount, -amount);
                 updateBalance(receiverAccount, amount);
 
@@ -66,9 +73,12 @@ namespace EBanking
             tx.Type = type;
             tx.Amount = amount;
             if (type == TransactionType.Credit)
-                tx.SystemComment = "Trnsaction from " + otherAccount + " to " + myAccount;
+                tx.SystemComment = "Transaction from " + otherAccount + " to " + myAccount;
             else
-                tx.SystemComment = "Trnsaction from " + myAccount + " to " + otherAccount;
+                tx.SystemComment = "Transaction from " + myAccount + " to " + otherAccount;
+
+            _db.Transactions.Insert(tx);
+            _transactions.Add(tx);
         }
 
 
