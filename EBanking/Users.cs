@@ -82,11 +82,11 @@ namespace EBanking
             return comparer.Compare(hashOfInput, hash) == 0;
         }
 
-        public bool addUserAccount(string username, string userAccountName, Guid key)
+        public bool addUserAccount(string username, string userAccountName)
         {
             if (userExist(username))
             {
-                _userAccounts.add(username, userAccountName, key, getUserID(username));
+                _userAccounts.add(userAccountName, getUserID(username));
                 return true;
             }
             return false;

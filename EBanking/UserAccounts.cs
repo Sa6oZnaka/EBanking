@@ -123,13 +123,16 @@ namespace EBanking
             return false;
         }
 
-        public void add(string username, string userAccountName, Guid key, int userID)
+        public void add(string userAccountName, int userID)
         {
             UserAccount account = new UserAccount();
             account.UserId = userID;
-            account.Key = key;
             account.FriendlyName = userAccountName;
             account.Balance = 0;
+
+            account.Key = Guid.NewGuid();
+            while (!userAccoutExist(account.Key))
+                account.Key = Guid.NewGuid();
 
             All.Add(account);
             _db.UserAccounts.Insert(account);
@@ -145,10 +148,9 @@ namespace EBanking
 
             return true;
         }
-
         private bool userAccoutExist(Guid key)
         {
-            return All.Any(ua => ua.Key == key);
+            return All.Any(ua => ua.Key.CompareTo(key) != 0);
         }
 
         private int getUserAccountId(Guid key)
