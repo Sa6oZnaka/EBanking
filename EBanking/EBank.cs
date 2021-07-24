@@ -20,8 +20,11 @@ namespace EBanking
             _users = new Users(_db);
 
             // Add user
-            //Console.WriteLine(_users.add("Alex1", "12345", "Random Name", "test@test.test"));
-            //Console.WriteLine(_users.add("Alex2", "12345", "Random Name", "test@test.test"));
+            //_users.add("Alex1", "12345", "Random Name", "test@test.test");
+            //_users.add("Alex2", "12345", "Random Name", "test@test.test");
+
+            //Console.WriteLine(_users.authenticate("Alex1", "12345"));
+            //Console.WriteLine(_users.authenticate("Alex1", "123451"));
 
             // Add user account
             //Console.WriteLine(_users.addUserAccount("Alex1", "Savings", Guid.NewGuid()));

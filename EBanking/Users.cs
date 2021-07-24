@@ -8,6 +8,8 @@ using EBanking.Data.Entities;
 using EBanking.Data;
 using EBanking.Data.Interfaces;
 
+using System.Security.Cryptography;
+
 namespace EBanking
 {
     class Users
@@ -39,17 +41,41 @@ namespace EBanking
 
         public void add(string username, string password, string fullname, string email)
         {
-            validateUsername(username);
-            
-            User u = new User();
-            u.Username = username;
-            u.Password = password;
-            u.FullName = fullname;
-            u.Email = email;
-            u.DateRegistered = DateTime.Now;
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                validateUsername(username);
+                string hash = GetHash(sha256Hash, password);
 
-            _db.Users.Insert(u);
-               
+                User u = new User();
+                u.Username = username;
+                u.Password = hash;
+                u.FullName = fullname;
+                u.Email = email;
+                u.DateRegistered = DateTime.Now;
+
+                _db.Users.Insert(u);
+            }   
+        }
+
+        private static string GetHash(HashAlgorithm hashAlgorithm, string input)
+        {
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
+            var sBuilder = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+            return sBuilder.ToString();
+        }
+
+        // Verify a hash against a string.
+        private static bool VerifyHash(HashAlgorithm hashAlgorithm, string input, string hash)
+        {
+            var hashOfInput = GetHash(hashAlgorithm, input);
+            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+            return comparer.Compare(hashOfInput, hash) == 0;
         }
 
         public bool addUserAccount(string username, string userAccountName, Guid key)
@@ -62,10 +88,12 @@ namespace EBanking
             return false;
         }
 
-
         public bool authenticate(string username, string password)
         {
-            return All.Any(u => u.Username == username && u.Password == password);
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                return All.Any(u => u.Username == username && VerifyHash(sha256Hash, password, u.Password));
+            }
         }
 
         private int getUserID(string username)
