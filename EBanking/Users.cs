@@ -44,6 +44,10 @@ namespace EBanking
             using (SHA256 sha256Hash = SHA256.Create())
             {
                 validateUsername(username);
+                validateEmail(email);
+                if(password.Length < 8)
+                    throw new InvalidOperationException("Password length must be more than 8 characters!");
+
                 string hash = GetHash(sha256Hash, password);
 
                 User u = new User();
@@ -106,8 +110,23 @@ namespace EBanking
             return All.Any(u => u.Username == username);
         }
 
+        private void validateEmail(string email)
+        {
+            try
+            {
+                new System.Net.Mail.MailAddress(email);
+            }
+            catch
+            {
+                throw new InvalidOperationException("Invalid Email!");
+            }
+        }
+
         private void validateUsername(string username)
         {
+            if(string.IsNullOrEmpty(username))
+                throw new InvalidOperationException("Username can't be empty!");
+
             if (username.Length < 4 || username.Length > 16)
                 throw new InvalidOperationException("Username length must be between 4 and 16 characters!");
 
