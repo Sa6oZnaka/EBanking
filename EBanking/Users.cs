@@ -18,10 +18,22 @@ namespace EBanking
         IEBankingDbContext _db;
         UserAccounts _userAccounts;
 
-        public List<User> All {
+        public List<UserData> All {
             get
             {
-                return _db.Users.All.ToList();
+                List<UserData> userData = new List<UserData>();
+                foreach(User u in _db.Users.All.ToList())
+                {
+                    UserData ud = new UserData();
+                    ud.Id = u.Id;
+                    ud.Username = u.Username;
+                    ud.FullName = u.FullName;
+                    ud.Email = u.Email;
+                    u.DateRegistered = u.DateRegistered;
+
+                    userData.Add(ud);
+                }
+                return userData;
             } 
         }
 
@@ -98,7 +110,7 @@ namespace EBanking
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
-                return All.Any(u => u.Username == username && VerifyHash(sha256Hash, password, u.Password));
+                return _db.Users.All.ToList().Any(u => u.Username == username && VerifyHash(sha256Hash, password, u.Password));
             }
         }
 
