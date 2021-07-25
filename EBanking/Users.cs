@@ -119,7 +119,7 @@ namespace EBanking
             return All.Find(u => u.Username == username).Id;
         }
 
-        private bool userExist(string username)
+        public bool userExist(string username)
         {
             return All.Any(u => u.Username == username);
         }

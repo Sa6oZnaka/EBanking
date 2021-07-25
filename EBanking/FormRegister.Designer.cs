@@ -48,6 +48,7 @@ namespace EBanking
             // 
             // buttonRegister
             // 
+            this.buttonRegister.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this.buttonRegister.Dock = System.Windows.Forms.DockStyle.Left;
             this.buttonRegister.Location = new System.Drawing.Point(0, 0);
             this.buttonRegister.Name = "buttonRegister";
@@ -197,16 +198,16 @@ namespace EBanking
         private System.Windows.Forms.Button buttonRegister;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxUsername;
-        private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxEmail;
-        private System.Windows.Forms.TextBox textBoxFullName;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBoxConfirmPassword;
         private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.TextBox textBoxUsername;
+        public System.Windows.Forms.TextBox textBoxFullName;
+        public System.Windows.Forms.TextBox textBoxEmail;
+        public System.Windows.Forms.TextBox textBoxPassword;
+        public System.Windows.Forms.TextBox textBoxConfirmPassword;
     }
 }
 

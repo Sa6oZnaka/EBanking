@@ -16,11 +16,11 @@ namespace EBanking
         [STAThread]
         static void Main()
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FormRegister());
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormLogin());
 
-            EBank ebank = new EBank();
+            //EBank ebank = new EBank(); 
         }
 
     }
