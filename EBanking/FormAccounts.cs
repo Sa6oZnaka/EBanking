@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace EBanking
 {
-    public partial class FormRegister : Form
+    public partial class FormAccounts : Form
     {
-        public FormRegister()
+        public FormAccounts()
         {
             InitializeComponent();
-        }
-
-        private void buttonRegister_Click(object sender, EventArgs e)
-        {
-            // register
         }
     }
 }
