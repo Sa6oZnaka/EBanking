@@ -41,24 +41,28 @@ namespace EBanking
 
         public void add(string username, string password, string fullname, string email)
         {
-            using (SHA256 sha256Hash = SHA256.Create())
+            using (var transaction = _db.StartDbTransaction())
             {
                 validateUsername(username);
                 validateEmail(email);
-                if(password.Length < 8)
+                if (password.Length < 8)
                     throw new InvalidOperationException("Password length must be more than 8 characters!");
-
-                string hash = GetHash(sha256Hash, password);
 
                 User u = new User();
                 u.Username = username;
-                u.Password = hash;
                 u.FullName = fullname;
                 u.Email = email;
                 u.DateRegistered = DateTime.Now;
 
+                using (SHA256 sha256Hash = SHA256.Create())
+                {
+                    string hash = GetHash(sha256Hash, password);
+                    u.Password = hash;
+                }
+
                 _db.Users.Insert(u);
-            }   
+                transaction.Commit();
+            }
         }
 
         private static string GetHash(HashAlgorithm hashAlgorithm, string input)
@@ -82,14 +86,12 @@ namespace EBanking
             return comparer.Compare(hashOfInput, hash) == 0;
         }
 
-        public bool addUserAccount(string username, string userAccountName)
+        public void addUserAccount(string username, string userAccountName)
         {
-            if (userExist(username))
-            {
-                _userAccounts.add(userAccountName, getUserID(username));
-                return true;
-            }
-            return false;
+            if (! userExist(username))
+                throw new Exception("User doesn't exist!");
+
+            _userAccounts.add(userAccountName, getUserID(username));
         }
 
         public bool authenticate(string username, string password)

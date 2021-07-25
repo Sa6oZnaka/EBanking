@@ -34,17 +34,21 @@ namespace EBanking
             _db = db;
         }
 
-        public bool sendToUser(Guid senderAccount, Guid receiverAccount, decimal amount)
+        public void sendToUser(Guid senderAccount, Guid receiverAccount, decimal amount)
         {
             if (Guid.Equals(senderAccount, receiverAccount))
-                return false;
+                throw new Exception("Can't send to the same account!");
+            if (!userAccoutExist(senderAccount))
+                throw new Exception("Sender account doesn't exist!");
+            if (!userAccoutExist(receiverAccount))
+                throw new Exception("Receiver account doesn't exist!");
+            if(amount <= 0)
+                throw new Exception("Amount must be more than 0!");            
+            if (getUserBalance(senderAccount) < amount)
+                throw new Exception("Insufficient funds!");
 
-            if (userAccoutExist(senderAccount) && userAccoutExist(receiverAccount) && amount > 0)
+            using (var transaction = _db.StartDbTransaction())
             {
-                // insufficient funds
-                if (getUserBalance(senderAccount) < amount)
-                    return false;
-
                 updateBalance(senderAccount, -amount);
                 updateBalance(receiverAccount, amount);
 
@@ -67,17 +71,21 @@ namespace EBanking
                 _db.Transactions.Insert(txSender);
                 _db.Transactions.Insert(txReceiver);
 
-                return true;
+                transaction.Commit();
             }
-            return false;
         }
 
-        public bool deposit(Guid receiverAccount, decimal amount)
+        public void deposit(Guid receiverAccount, decimal amount)
         {
-            if (userAccoutExist(receiverAccount) && amount > 0)
+            if (!userAccoutExist(receiverAccount))
+                throw new Exception("Receiver account doesn't exist!");
+            if (amount <= 0)
+                throw new Exception("Amount must be more than 0!");
+
+            using (var transaction = _db.StartDbTransaction())
             {
                 updateBalance(receiverAccount, amount);
-                
+             
                 Transaction txReceiver = new Transaction();
                 txReceiver.UserAccountId = getUserAccountId(receiverAccount);
                 txReceiver.Key = Guid.NewGuid();
@@ -87,15 +95,20 @@ namespace EBanking
                 txReceiver.SystemComment = "Deposit to " + receiverAccount;
 
                 _db.Transactions.Insert(txReceiver);
-
-                return true;
+                transaction.Commit();
             }
-            return false;
         }
 
-        public bool withdraw(Guid senderAccount, decimal amount)
+        public void withdraw(Guid senderAccount, decimal amount)
         {
-            if (userAccoutExist(senderAccount) && amount > 0 && getUserBalance(senderAccount) >= Decimal.Add(amount, WithdrawFee))
+            if (!userAccoutExist(senderAccount))
+                throw new Exception("Sender account doesn't exist!");
+            if (amount <= 0)
+                throw new Exception("Amount must be more than 0!");
+            if (getUserBalance(senderAccount) < Decimal.Add(amount, WithdrawFee))
+                throw new Exception("Insufficient funds!");
+
+            using (var transaction = _db.StartDbTransaction())
             {
                 updateBalance(senderAccount, -Decimal.Add(amount, WithdrawFee));
 
@@ -118,24 +131,28 @@ namespace EBanking
                 _db.Transactions.Insert(txSender);
                 _db.Transactions.Insert(txFee);
 
-                return true;
+                transaction.Commit();
             }
-            return false;
         }
 
         public void add(string userAccountName, int userID)
         {
-            UserAccount account = new UserAccount();
-            account.UserId = userID;
-            account.FriendlyName = userAccountName;
-            account.Balance = 0;
+            using (var transaction = _db.StartDbTransaction())
+            {
+                UserAccount account = new UserAccount();
+                account.UserId = userID;
+                account.FriendlyName = userAccountName;
+                account.Balance = 0;
 
-            account.Key = Guid.NewGuid();
-            while (!userAccoutExist(account.Key))
                 account.Key = Guid.NewGuid();
+                while (userAccoutExist(account.Key))
+                    account.Key = Guid.NewGuid();
 
-            All.Add(account);
-            _db.UserAccounts.Insert(account);
+                All.Add(account);
+                _db.UserAccounts.Insert(account);
+
+                transaction.Commit();
+            }
         }
 
         private bool updateBalance(Guid account, decimal amount)
@@ -150,7 +167,7 @@ namespace EBanking
         }
         private bool userAccoutExist(Guid key)
         {
-            return All.Any(ua => ua.Key.CompareTo(key) != 0);
+            return All.Any(ua => ua.Key == key);
         }
 
         private int getUserAccountId(Guid key)
