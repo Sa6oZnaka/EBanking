@@ -120,17 +120,17 @@ namespace EBanking
             }
             catch
             {
-                throw new InvalidOperationException("Invalid Email!");
+                throw new Exception("Invalid Email!");
             }
         }
 
         private void validateUsername(string username)
         {
             if(string.IsNullOrEmpty(username))
-                throw new InvalidOperationException("Username can't be empty!");
+                throw new Exception("Username can't be empty!");
 
             if (username.Length < 4 || username.Length > 16)
-                throw new InvalidOperationException("Username length must be between 4 and 16 characters!");
+                throw new Exception("Username length must be between 4 and 16 characters!");
 
             bool containsLetter = false;
             bool containsNumber = false;
@@ -147,14 +147,14 @@ namespace EBanking
                         containsNumber = true;
                 }
                 else
-                    throw new InvalidOperationException("Username can only contain letters and digits!");
+                    throw new Exception("Username can only contain letters and digits!");
             }
             
             if (!containsLetter || !containsNumber)
-                throw new InvalidOperationException("Username must contain at least one letter and number!");
+                throw new Exception("Username must contain at least one letter and number!");
 
             if (userExist(username))
-                throw new InvalidOperationException("Username already used!");
+                throw new Exception("Username already used!");
         }
 
     }

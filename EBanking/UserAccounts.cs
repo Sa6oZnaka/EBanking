@@ -155,15 +155,14 @@ namespace EBanking
             }
         }
 
-        private bool updateBalance(Guid account, decimal amount)
+        private void updateBalance(Guid account, decimal amount)
         {
-            if (!userAccoutExist(account)) return false;
+            if (!userAccoutExist(account))
+                throw new Exception("User doesn't exist!");
 
             UserAccount userAccount = getUserAccount(account);
             userAccount.Balance = Decimal.Add(userAccount.Balance, amount);
             _db.UserAccounts.Update(userAccount);
-
-            return true;
         }
         private bool userAccoutExist(Guid key)
         {
