@@ -30,18 +30,21 @@ namespace EBanking
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonLogout = new System.Windows.Forms.Button();
-            this.listBoxAccounts = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonLogout = new System.Windows.Forms.Button();
+            this.listViewAccounts = new System.Windows.Forms.ListView();
+            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnBalance = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.listBoxAccounts);
+            this.panel1.Controls.Add(this.listViewAccounts);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -49,26 +52,6 @@ namespace EBanking
             this.panel1.Padding = new System.Windows.Forms.Padding(5);
             this.panel1.Size = new System.Drawing.Size(655, 449);
             this.panel1.TabIndex = 0;
-            // 
-            // buttonLogout
-            // 
-            this.buttonLogout.DialogResult = System.Windows.Forms.DialogResult.Abort;
-            this.buttonLogout.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonLogout.Location = new System.Drawing.Point(568, 2);
-            this.buttonLogout.Name = "buttonLogout";
-            this.buttonLogout.Size = new System.Drawing.Size(75, 30);
-            this.buttonLogout.TabIndex = 5;
-            this.buttonLogout.Text = "Logout";
-            this.buttonLogout.UseVisualStyleBackColor = true;
-            // 
-            // listBoxAccounts
-            // 
-            this.listBoxAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxAccounts.FormattingEnabled = true;
-            this.listBoxAccounts.Location = new System.Drawing.Point(5, 39);
-            this.listBoxAccounts.Name = "listBoxAccounts";
-            this.listBoxAccounts.Size = new System.Drawing.Size(645, 405);
-            this.listBoxAccounts.TabIndex = 1;
             // 
             // panel2
             // 
@@ -102,6 +85,52 @@ namespace EBanking
             this.label1.TabIndex = 0;
             this.label1.Text = "Accounts";
             // 
+            // buttonLogout
+            // 
+            this.buttonLogout.DialogResult = System.Windows.Forms.DialogResult.Abort;
+            this.buttonLogout.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonLogout.Location = new System.Drawing.Point(568, 2);
+            this.buttonLogout.Name = "buttonLogout";
+            this.buttonLogout.Size = new System.Drawing.Size(75, 30);
+            this.buttonLogout.TabIndex = 5;
+            this.buttonLogout.Text = "Logout";
+            this.buttonLogout.UseVisualStyleBackColor = true;
+            // 
+            // listViewAccounts
+            // 
+            this.listViewAccounts.BackgroundImageTiled = true;
+            this.listViewAccounts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnName,
+            this.columnKey,
+            this.columnBalance});
+            this.listViewAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewAccounts.FullRowSelect = true;
+            this.listViewAccounts.GridLines = true;
+            this.listViewAccounts.HideSelection = false;
+            this.listViewAccounts.Location = new System.Drawing.Point(5, 39);
+            this.listViewAccounts.Name = "listViewAccounts";
+            this.listViewAccounts.Size = new System.Drawing.Size(645, 405);
+            this.listViewAccounts.TabIndex = 1;
+            this.listViewAccounts.UseCompatibleStateImageBehavior = false;
+            this.listViewAccounts.View = System.Windows.Forms.View.Details;
+            // 
+            // columnName
+            // 
+            this.columnName.Tag = "";
+            this.columnName.Text = "Name";
+            this.columnName.Width = 86;
+            // 
+            // columnBalance
+            // 
+            this.columnBalance.Tag = "";
+            this.columnBalance.Text = "Balance";
+            this.columnBalance.Width = 70;
+            // 
+            // columnKey
+            // 
+            this.columnKey.Text = "Key";
+            this.columnKey.Width = 155;
+            // 
             // FormAccounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -121,10 +150,13 @@ namespace EBanking
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ListBox listBoxAccounts;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonLogout;
+        private System.Windows.Forms.ListView listViewAccounts;
+        private System.Windows.Forms.ColumnHeader columnName;
+        private System.Windows.Forms.ColumnHeader columnBalance;
+        private System.Windows.Forms.ColumnHeader columnKey;
     }
 }

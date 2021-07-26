@@ -38,10 +38,18 @@ namespace EBanking
         private void displayUserAccounts()
         {
             List<UserAccount> accounts = getUserAccounts();
-            this.listBoxAccounts.Items.Clear();
+            //this.listBoxAccounts.Items.Clear();
+            this.listViewAccounts.Items.Clear();
+
             foreach(UserAccount acc in accounts)
             {
-                this.listBoxAccounts.Items.Add(acc);
+                string[] row = { 
+                    acc.FriendlyName, 
+                    acc.Key.ToString(), 
+                    acc.Balance.ToString() 
+                };
+                var listViewItem = new ListViewItem(row);
+                listViewAccounts.Items.Add(listViewItem);
             }
         }
 
