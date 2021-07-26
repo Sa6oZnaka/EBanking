@@ -30,10 +30,10 @@ namespace EBanking
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.listBoxAccounts = new System.Windows.Forms.ListBox();
-            this.buttonAdd = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.buttonAdd = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -49,15 +49,6 @@ namespace EBanking
             this.panel1.Size = new System.Drawing.Size(655, 449);
             this.panel1.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Accounts";
-            // 
             // listBoxAccounts
             // 
             this.listBoxAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -66,16 +57,6 @@ namespace EBanking
             this.listBoxAccounts.Name = "listBoxAccounts";
             this.listBoxAccounts.Size = new System.Drawing.Size(645, 405);
             this.listBoxAccounts.TabIndex = 1;
-            // 
-            // buttonAdd
-            // 
-            this.buttonAdd.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonAdd.Location = new System.Drawing.Point(568, 2);
-            this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(75, 30);
-            this.buttonAdd.TabIndex = 2;
-            this.buttonAdd.Text = "Add";
-            this.buttonAdd.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -88,6 +69,25 @@ namespace EBanking
             this.panel2.Size = new System.Drawing.Size(645, 34);
             this.panel2.TabIndex = 4;
             // 
+            // buttonAdd
+            // 
+            this.buttonAdd.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonAdd.Location = new System.Drawing.Point(568, 2);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(75, 30);
+            this.buttonAdd.TabIndex = 2;
+            this.buttonAdd.Text = "Add";
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Accounts";
+            // 
             // FormAccounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -95,7 +95,7 @@ namespace EBanking
             this.ClientSize = new System.Drawing.Size(655, 449);
             this.Controls.Add(this.panel1);
             this.Name = "FormAccounts";
-            this.Text = "FormAccounts";
+            this.Text = "Accounts";
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

@@ -39,9 +39,9 @@ namespace EBanking
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.textBoxFullName = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.textBoxConfirmPassword = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -150,15 +150,6 @@ namespace EBanking
             this.panel1.Size = new System.Drawing.Size(351, 241);
             this.panel1.TabIndex = 9;
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.buttonRegister);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(12, 193);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(327, 36);
-            this.panel2.TabIndex = 9;
-            // 
             // textBoxConfirmPassword
             // 
             this.textBoxConfirmPassword.Dock = System.Windows.Forms.DockStyle.Top;
@@ -176,6 +167,15 @@ namespace EBanking
             this.label5.Size = new System.Drawing.Size(91, 13);
             this.label5.TabIndex = 10;
             this.label5.Text = "Confirm Password";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.buttonRegister);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(12, 193);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(327, 36);
+            this.panel2.TabIndex = 9;
             // 
             // FormRegister
             // 
@@ -203,11 +203,11 @@ namespace EBanking
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label5;
-        public System.Windows.Forms.TextBox textBoxUsername;
-        public System.Windows.Forms.TextBox textBoxFullName;
-        public System.Windows.Forms.TextBox textBoxEmail;
-        public System.Windows.Forms.TextBox textBoxPassword;
-        public System.Windows.Forms.TextBox textBoxConfirmPassword;
+        private System.Windows.Forms.TextBox textBoxConfirmPassword;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.TextBox textBoxEmail;
+        private System.Windows.Forms.TextBox textBoxFullName;
+        private System.Windows.Forms.TextBox textBoxUsername;
     }
 }
 

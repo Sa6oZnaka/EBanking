@@ -31,12 +31,12 @@ namespace EBanking
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.buttonRegister = new System.Windows.Forms.Button();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.buttonRegister = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -64,6 +64,17 @@ namespace EBanking
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(283, 36);
             this.panel2.TabIndex = 9;
+            // 
+            // buttonRegister
+            // 
+            this.buttonRegister.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonRegister.Location = new System.Drawing.Point(75, 0);
+            this.buttonRegister.Name = "buttonRegister";
+            this.buttonRegister.Size = new System.Drawing.Size(75, 36);
+            this.buttonRegister.TabIndex = 1;
+            this.buttonRegister.Text = "Register";
+            this.buttonRegister.UseVisualStyleBackColor = true;
+            this.buttonRegister.Click += new System.EventHandler(this.buttonRegister_Click);
             // 
             // buttonLogin
             // 
@@ -111,17 +122,6 @@ namespace EBanking
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Username";
-            // 
-            // buttonRegister
-            // 
-            this.buttonRegister.Dock = System.Windows.Forms.DockStyle.Left;
-            this.buttonRegister.Location = new System.Drawing.Point(75, 0);
-            this.buttonRegister.Name = "buttonRegister";
-            this.buttonRegister.Size = new System.Drawing.Size(75, 36);
-            this.buttonRegister.TabIndex = 1;
-            this.buttonRegister.Text = "Register";
-            this.buttonRegister.UseVisualStyleBackColor = true;
-            this.buttonRegister.Click += new System.EventHandler(this.buttonRegister_Click);
             // 
             // FormLogin
             // 

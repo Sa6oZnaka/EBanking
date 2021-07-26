@@ -10,7 +10,7 @@ using EBanking.Data.Interfaces;
 
 namespace EBanking
 {
-    class UserAccounts
+    public class UserAccounts
     {
 
         IEBankingDbContext _db;

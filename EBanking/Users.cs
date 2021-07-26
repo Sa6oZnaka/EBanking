@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 
 namespace EBanking
 {
-    class Users
+    public class Users
     {
 
         IEBankingDbContext _db;
@@ -57,8 +57,7 @@ namespace EBanking
             {
                 validateUsername(username);
                 validateEmail(email);
-                if (password.Length < 8)
-                    throw new InvalidOperationException("Password length must be more than 8 characters!");
+                validatePassword(password);
 
                 User u = new User();
                 u.Username = username;
@@ -134,6 +133,14 @@ namespace EBanking
             {
                 throw new Exception("Invalid Email!");
             }
+        }
+
+        private void validatePassword(string password)
+        {
+            if (password.Length < 8)
+                throw new InvalidOperationException("Password length must be more than 8 characters!");
+            if(password.Any(p => char.IsLetter(p)) && password.Any(p => char.IsDigit(p)))
+                throw new InvalidOperationException("Password must contain at least 1 character and letter!");
         }
 
         private void validateUsername(string username)

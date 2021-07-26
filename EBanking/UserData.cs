@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EBanking
 {
-    class UserData
+    public class UserData
     {
         public int Id { get; set; }
         public string Username { get; set; }
