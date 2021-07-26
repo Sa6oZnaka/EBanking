@@ -55,7 +55,18 @@ namespace EBanking
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            _users.UserAccounts.add("Test name", _userID);
+            var fp = new FormTextBox();
+            fp.labelText.Text = "Enter account name";
+            if(fp.ShowDialog() == DialogResult.OK)
+            {
+                if (string.IsNullOrEmpty(fp.textBox1.Text))
+                {
+                    MessageBox.Show("Name can't be empty!");
+                    return;
+                }
+                _users.UserAccounts.add(fp.textBox1.Text, _userID);
+            }
+
             displayUserAccounts();
         }
 
