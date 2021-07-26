@@ -183,5 +183,9 @@ namespace EBanking
             return All.Find(ua => ua.Key == key);
         }
 
+        public List<UserAccount> getUserAccounts(int userID)
+        {
+            return All.FindAll(ua => ua.UserId == userID);
+        }
     }
 }

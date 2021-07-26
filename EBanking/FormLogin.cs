@@ -35,9 +35,14 @@ namespace EBanking
 
             if(_users.authenticate(username, password))
             {
-                var accountsForm = new FormAccounts(_users);
-                accountsForm.Show();
+                var accountsForm = new FormAccounts(_users.getUserID(username), _users);
+
                 this.Hide();
+                if (accountsForm.ShowDialog() == DialogResult.Abort)
+                {
+                    // show login form on logout
+                    this.Show();
+                }
             }
             else
             {

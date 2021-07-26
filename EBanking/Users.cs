@@ -112,8 +112,7 @@ namespace EBanking
                 return _db.Users.All.ToList().Any(u => u.Username == username && VerifyHash(sha256Hash, password, u.Password));
             }
         }
-
-        private int getUserID(string username)
+        public int getUserID(string username)
         {
             return All.Find(u => u.Username == username).Id;
         }
