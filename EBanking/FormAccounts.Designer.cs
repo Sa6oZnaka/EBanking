@@ -30,10 +30,16 @@ namespace EBanking
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.listViewAccounts = new System.Windows.Forms.ListView();
             this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnBalance = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.listViewTransactions = new System.Windows.Forms.ListView();
+            this.columnTxKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnTxInfo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnAmount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonTransfer = new System.Windows.Forms.Button();
             this.buttonWithdraw = new System.Windows.Forms.Button();
@@ -41,15 +47,9 @@ namespace EBanking
             this.buttonAdd = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonLogout = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.listViewTransactions = new System.Windows.Forms.ListView();
-            this.columnTxKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnTxInfo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnAmount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -63,6 +63,21 @@ namespace EBanking
             this.panel1.Size = new System.Drawing.Size(857, 521);
             this.panel1.TabIndex = 0;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.listViewAccounts, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.listViewTransactions, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 39);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.93264F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(847, 477);
+            this.tableLayoutPanel1.TabIndex = 5;
+            // 
             // listViewAccounts
             // 
             this.listViewAccounts.BackgroundImageTiled = true;
@@ -75,6 +90,7 @@ namespace EBanking
             this.listViewAccounts.GridLines = true;
             this.listViewAccounts.HideSelection = false;
             this.listViewAccounts.Location = new System.Drawing.Point(3, 3);
+            this.listViewAccounts.MultiSelect = false;
             this.listViewAccounts.Name = "listViewAccounts";
             this.listViewAccounts.Size = new System.Drawing.Size(417, 471);
             this.listViewAccounts.TabIndex = 1;
@@ -97,6 +113,44 @@ namespace EBanking
             this.columnBalance.Tag = "";
             this.columnBalance.Text = "Balance";
             this.columnBalance.Width = 70;
+            // 
+            // listViewTransactions
+            // 
+            this.listViewTransactions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnTxKey,
+            this.columnTxInfo,
+            this.columnType,
+            this.columnAmount});
+            this.listViewTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewTransactions.FullRowSelect = true;
+            this.listViewTransactions.GridLines = true;
+            this.listViewTransactions.HideSelection = false;
+            this.listViewTransactions.Location = new System.Drawing.Point(426, 3);
+            this.listViewTransactions.Name = "listViewTransactions";
+            this.listViewTransactions.Size = new System.Drawing.Size(418, 471);
+            this.listViewTransactions.TabIndex = 2;
+            this.listViewTransactions.UseCompatibleStateImageBehavior = false;
+            this.listViewTransactions.View = System.Windows.Forms.View.Details;
+            // 
+            // columnTxKey
+            // 
+            this.columnTxKey.Text = "Key";
+            this.columnTxKey.Width = 100;
+            // 
+            // columnTxInfo
+            // 
+            this.columnTxInfo.Text = "Info";
+            this.columnTxInfo.Width = 110;
+            // 
+            // columnType
+            // 
+            this.columnType.Text = "Type";
+            this.columnType.Width = 49;
+            // 
+            // columnAmount
+            // 
+            this.columnAmount.Text = "Amount";
+            this.columnAmount.Width = 54;
             // 
             // panel2
             // 
@@ -142,6 +196,7 @@ namespace EBanking
             this.buttonDeposit.TabIndex = 6;
             this.buttonDeposit.Text = "Deposit";
             this.buttonDeposit.UseVisualStyleBackColor = true;
+            this.buttonDeposit.Click += new System.EventHandler(this.buttonDeposit_Click);
             // 
             // buttonAdd
             // 
@@ -174,59 +229,6 @@ namespace EBanking
             this.buttonLogout.Text = "Logout";
             this.buttonLogout.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.listViewAccounts, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.listViewTransactions, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 39);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.93264F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(847, 477);
-            this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // listViewTransactions
-            // 
-            this.listViewTransactions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnTxKey,
-            this.columnTxInfo,
-            this.columnType,
-            this.columnAmount});
-            this.listViewTransactions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewTransactions.FullRowSelect = true;
-            this.listViewTransactions.GridLines = true;
-            this.listViewTransactions.HideSelection = false;
-            this.listViewTransactions.Location = new System.Drawing.Point(426, 3);
-            this.listViewTransactions.Name = "listViewTransactions";
-            this.listViewTransactions.Size = new System.Drawing.Size(418, 471);
-            this.listViewTransactions.TabIndex = 2;
-            this.listViewTransactions.UseCompatibleStateImageBehavior = false;
-            this.listViewTransactions.View = System.Windows.Forms.View.Details;
-            // 
-            // columnTxKey
-            // 
-            this.columnTxKey.Text = "Key";
-            this.columnTxKey.Width = 100;
-            // 
-            // columnTxInfo
-            // 
-            this.columnTxInfo.Text = "Info";
-            this.columnTxInfo.Width = 110;
-            // 
-            // columnType
-            // 
-            this.columnType.Text = "Type";
-            this.columnType.Width = 49;
-            // 
-            // columnAmount
-            // 
-            this.columnAmount.Text = "Amount";
-            this.columnAmount.Width = 54;
-            // 
             // FormAccounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,9 +239,9 @@ namespace EBanking
             this.Text = "Accounts";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAccounts_FormClosing);
             this.panel1.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
