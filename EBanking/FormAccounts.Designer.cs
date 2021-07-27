@@ -47,6 +47,7 @@ namespace EBanking
             this.buttonAdd = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonLogout = new System.Windows.Forms.Button();
+            this.columnDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -117,6 +118,7 @@ namespace EBanking
             // listViewTransactions
             // 
             this.listViewTransactions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnDate,
             this.columnTxKey,
             this.columnTxInfo,
             this.columnType,
@@ -230,6 +232,10 @@ namespace EBanking
             this.buttonLogout.Text = "Logout";
             this.buttonLogout.UseVisualStyleBackColor = true;
             // 
+            // columnDate
+            // 
+            this.columnDate.Text = "Date";
+            // 
             // FormAccounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,5 +273,6 @@ namespace EBanking
         private System.Windows.Forms.ColumnHeader columnTxInfo;
         private System.Windows.Forms.ColumnHeader columnType;
         private System.Windows.Forms.ColumnHeader columnAmount;
+        private System.Windows.Forms.ColumnHeader columnDate;
     }
 }

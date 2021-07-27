@@ -29,19 +29,12 @@ namespace EBanking
 
             refreshUserAccounts();
         }
-
-        private List<UserAccount> getUserAccounts()
-        {
-            return _users.UserAccounts.All.FindAll(ua => ua.UserId == _userID);
-        }
-
         private void refreshUserAccounts()
         {
-            List<UserAccount> accounts = getUserAccounts();
-            //this.listBoxAccounts.Items.Clear();
+            List<UserAccount> accounts = _users.UserAccounts.All.FindAll(ua => ua.UserId == _userID);
             this.listViewAccounts.Items.Clear();
 
-            foreach(UserAccount acc in accounts)
+            foreach (UserAccount acc in accounts)
             {
                 string[] row = { 
                     acc.FriendlyName, 
@@ -50,6 +43,36 @@ namespace EBanking
                 };
                 var listViewItem = new ListViewItem(row);
                 listViewAccounts.Items.Add(listViewItem);
+            }
+
+            refreshTransactions();
+        }
+
+        private void refreshTransactions()
+        {
+            List<UserAccount> accounts = _users.UserAccounts.All.FindAll(ua => ua.UserId == _userID);
+            List<Transaction> transactions = _users.Transactions.All;
+
+            var userTransactions = accounts.Join(transactions,
+                acc => acc.Id,
+                tx => tx.UserAccountId,
+                (acc, tx) =>
+                    tx);
+
+            userTransactions = userTransactions.OrderBy(tx => tx.EventDate);
+            this.listViewTransactions.Items.Clear();
+
+            foreach (Transaction tx in userTransactions)
+            {
+                string[] row = {
+                    tx.EventDate.ToString(),
+                    tx.Key.ToString(),
+                    tx.SystemComment,
+                    tx.Type.ToString(),
+                    tx.Amount.ToString()
+                };
+                var listViewItem = new ListViewItem(row);
+                listViewTransactions.Items.Add(listViewItem);
             }
         }
 
@@ -129,6 +152,11 @@ namespace EBanking
                 if (!decimal.TryParse(fp.textBox1.Text, out decimal amount) && amount <= 0)
                 {
                     MessageBox.Show("Invalid amount!");
+                    return;
+                }
+                if(Decimal.Add(_users.UserAccounts.getUserBalance(key) , -_users.UserAccounts.WithdrawFee) < amount)
+                {
+                    MessageBox.Show("Insufficient funds!");
                     return;
                 }
 

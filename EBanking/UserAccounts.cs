@@ -173,7 +173,7 @@ namespace EBanking
         {
             return getUserAccount(key).Id;
         }
-        private decimal getUserBalance(Guid key)
+        public decimal getUserBalance(Guid key)
         {
             return getUserAccount(key).Balance;
         }

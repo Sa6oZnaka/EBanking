@@ -17,6 +17,7 @@ namespace EBanking
 
         IEBankingDbContext _db;
         UserAccounts _userAccounts;
+        Transactions _transactions;
 
         public List<UserData> All {
             get
@@ -42,6 +43,7 @@ namespace EBanking
             _db = db;
             
             _userAccounts = new UserAccounts(db);
+            _transactions = new Transactions(db);
         }
 
         public UserAccounts UserAccounts {
@@ -49,6 +51,13 @@ namespace EBanking
             {
                 return _userAccounts;
             }
+        }
+
+        public Transactions Transactions {
+            get
+            {
+                return _transactions;
+            } 
         }
 
         public void add(string username, string password, string fullname, string email)
