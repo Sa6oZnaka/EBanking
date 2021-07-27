@@ -186,6 +186,7 @@ namespace EBanking
             this.buttonWithdraw.TabIndex = 7;
             this.buttonWithdraw.Text = "Withdraw";
             this.buttonWithdraw.UseVisualStyleBackColor = true;
+            this.buttonWithdraw.Click += new System.EventHandler(this.buttonWithdraw_Click);
             // 
             // buttonDeposit
             // 

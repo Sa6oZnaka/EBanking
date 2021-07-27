@@ -95,12 +95,44 @@ namespace EBanking
                     MessageBox.Show("Amount can't be empty!");
                     return;
                 }
-                if (! decimal.TryParse(fp.textBox1.Text, out decimal result) && result <= 0)
+                if (! decimal.TryParse(fp.textBox1.Text, out decimal amount) && amount <= 0)
                 {
                     MessageBox.Show("Invalid amount!");
                     return;
                 }
-                _users.UserAccounts.deposit(key, result);
+                _users.UserAccounts.deposit(key, amount);
+            }
+
+            refreshUserAccounts();
+        }
+
+        private void buttonWithdraw_Click(object sender, EventArgs e)
+        {
+            if (listViewAccounts.SelectedItems.Count != 1)
+            {
+                MessageBox.Show("Select user account first!");
+                return;
+            }
+
+            if (!Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
+                throw new Exception("Can't parse user account key!");
+
+            var fp = new FormTextBox();
+            fp.labelText.Text = "Enter amount you want to withdraw";
+            if (fp.ShowDialog() == DialogResult.OK)
+            {
+                if (string.IsNullOrEmpty(fp.textBox1.Text))
+                {
+                    MessageBox.Show("Amount can't be empty!");
+                    return;
+                }
+                if (!decimal.TryParse(fp.textBox1.Text, out decimal amount) && amount <= 0)
+                {
+                    MessageBox.Show("Invalid amount!");
+                    return;
+                }
+
+                _users.UserAccounts.withdraw(key, amount);
             }
 
             refreshUserAccounts();
