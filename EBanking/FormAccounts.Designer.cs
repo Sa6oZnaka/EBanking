@@ -36,6 +36,7 @@ namespace EBanking
             this.columnKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnBalance = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listViewTransactions = new System.Windows.Forms.ListView();
+            this.columnDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnTxKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnTxInfo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,7 +48,6 @@ namespace EBanking
             this.buttonAdd = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonLogout = new System.Windows.Forms.Button();
-            this.columnDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -134,6 +134,10 @@ namespace EBanking
             this.listViewTransactions.UseCompatibleStateImageBehavior = false;
             this.listViewTransactions.View = System.Windows.Forms.View.Details;
             // 
+            // columnDate
+            // 
+            this.columnDate.Text = "Date";
+            // 
             // columnTxKey
             // 
             this.columnTxKey.Text = "Key";
@@ -178,6 +182,7 @@ namespace EBanking
             this.buttonTransfer.TabIndex = 8;
             this.buttonTransfer.Text = "Transfer";
             this.buttonTransfer.UseVisualStyleBackColor = true;
+            this.buttonTransfer.Click += new System.EventHandler(this.buttonTransfer_Click);
             // 
             // buttonWithdraw
             // 
@@ -231,10 +236,6 @@ namespace EBanking
             this.buttonLogout.TabIndex = 5;
             this.buttonLogout.Text = "Logout";
             this.buttonLogout.UseVisualStyleBackColor = true;
-            // 
-            // columnDate
-            // 
-            this.columnDate.Text = "Date";
             // 
             // FormAccounts
             // 

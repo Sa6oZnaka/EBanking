@@ -124,9 +124,8 @@ namespace EBanking
                     return;
                 }
                 _users.UserAccounts.deposit(key, amount);
+                refreshUserAccounts();
             }
-
-            refreshUserAccounts();
         }
 
         private void buttonWithdraw_Click(object sender, EventArgs e)
@@ -161,9 +160,56 @@ namespace EBanking
                 }
 
                 _users.UserAccounts.withdraw(key, amount);
+                refreshUserAccounts();
+            }
+        }
+
+        private void buttonTransfer_Click(object sender, EventArgs e)
+        {
+            if (listViewAccounts.SelectedItems.Count != 1)
+            {
+                MessageBox.Show("Select user account first!");
+                return;
             }
 
-            refreshUserAccounts();
+            if (!Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
+                throw new Exception("Can't parse user account key!");
+
+            var fp = new FormTransfer();
+            if(fp.ShowDialog() == DialogResult.OK){
+
+                // check address
+                if (!Guid.TryParse(fp.textBoxAddress.Text, out Guid receiverKey))
+                {
+                    MessageBox.Show("Can't parse user receiver address!");
+                    return;
+                }
+                if (!_users.UserAccounts.userAccoutExist(receiverKey))
+                {
+                    MessageBox.Show("Receiver address doesn't exist!");
+                    return;
+                }
+
+                // check if amount is valid
+                if (string.IsNullOrEmpty(fp.textBoxAmount.Text))
+                {
+                    MessageBox.Show("Amount can't be empty!");
+                    return;
+                }
+                if (!decimal.TryParse(fp.textBoxAmount.Text, out decimal amount) && amount <= 0)
+                {
+                    MessageBox.Show("Invalid amount!");
+                    return;
+                }
+                if (Decimal.Add(_users.UserAccounts.getUserBalance(key), -amount) < 0)
+                {
+                    MessageBox.Show("Insufficient funds!");
+                    return;
+                }
+
+                _users.UserAccounts.sendToUser(key, receiverKey, amount);
+                refreshUserAccounts();
+            }
         }
     }
 }

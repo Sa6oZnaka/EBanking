@@ -164,7 +164,7 @@ namespace EBanking
             userAccount.Balance = Decimal.Add(userAccount.Balance, amount);
             _db.UserAccounts.Update(userAccount);
         }
-        private bool userAccoutExist(Guid key)
+        public bool userAccoutExist(Guid key)
         {
             return All.Any(ua => ua.Key == key);
         }
