@@ -134,6 +134,12 @@ namespace EBanking
             if (!Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
                 throw new Exception("Can't parse user account key!");
 
+            if(_users.UserAccounts.getUserBalance(key) <= _users.UserAccounts.WithdrawFee)
+            {
+                MessageBox.Show("You can't withdraw from this account!");
+                return;
+            }
+
             var fp = new FormWithdraw(Decimal.Add(_users.UserAccounts.getUserBalance(key), -_users.UserAccounts.WithdrawFee));
             if (fp.ShowDialog() == DialogResult.OK)
             {
@@ -152,6 +158,12 @@ namespace EBanking
 
             if (!Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
                 throw new Exception("Can't parse user account key!");
+
+            if (_users.UserAccounts.getUserBalance(key) == 0)
+            {
+                MessageBox.Show("You can't transfer from this account!");
+                return;
+            }
 
             var fp = new FormTransfer(_users, key);
             if(fp.ShowDialog() == DialogResult.OK){
