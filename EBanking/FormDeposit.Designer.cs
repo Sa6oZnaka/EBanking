@@ -30,11 +30,13 @@ namespace EBanking
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxDeposit = new System.Windows.Forms.TextBox();
-            this.buttonDeposit = new System.Windows.Forms.Button();
-            this.labelText = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.buttonDeposit = new System.Windows.Forms.Button();
+            this.textBoxDeposit = new System.Windows.Forms.TextBox();
+            this.labelText = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxAddress = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -50,38 +52,10 @@ namespace EBanking
             this.panel1.Size = new System.Drawing.Size(431, 332);
             this.panel1.TabIndex = 4;
             // 
-            // textBoxDeposit
-            // 
-            this.textBoxDeposit.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBoxDeposit.Location = new System.Drawing.Point(5, 18);
-            this.textBoxDeposit.Name = "textBoxDeposit";
-            this.textBoxDeposit.Size = new System.Drawing.Size(409, 20);
-            this.textBoxDeposit.TabIndex = 0;
-            // 
-            // buttonDeposit
-            // 
-            this.buttonDeposit.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonDeposit.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonDeposit.Location = new System.Drawing.Point(319, 5);
-            this.buttonDeposit.Name = "buttonDeposit";
-            this.buttonDeposit.Size = new System.Drawing.Size(85, 36);
-            this.buttonDeposit.TabIndex = 2;
-            this.buttonDeposit.Text = "Deposit";
-            this.buttonDeposit.UseVisualStyleBackColor = true;
-            this.buttonDeposit.Click += new System.EventHandler(this.buttonDeposit_Click);
-            // 
-            // labelText
-            // 
-            this.labelText.AutoSize = true;
-            this.labelText.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelText.Location = new System.Drawing.Point(5, 5);
-            this.labelText.Name = "labelText";
-            this.labelText.Size = new System.Drawing.Size(92, 13);
-            this.labelText.TabIndex = 1;
-            this.labelText.Text = "Amount to deposit";
-            // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.textBoxAddress);
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.textBoxDeposit);
             this.panel2.Controls.Add(this.labelText);
@@ -101,6 +75,54 @@ namespace EBanking
             this.panel3.Padding = new System.Windows.Forms.Padding(5);
             this.panel3.Size = new System.Drawing.Size(409, 46);
             this.panel3.TabIndex = 4;
+            // 
+            // buttonDeposit
+            // 
+            this.buttonDeposit.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonDeposit.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonDeposit.Location = new System.Drawing.Point(319, 5);
+            this.buttonDeposit.Name = "buttonDeposit";
+            this.buttonDeposit.Size = new System.Drawing.Size(85, 36);
+            this.buttonDeposit.TabIndex = 2;
+            this.buttonDeposit.Text = "Deposit";
+            this.buttonDeposit.UseVisualStyleBackColor = true;
+            this.buttonDeposit.Click += new System.EventHandler(this.buttonDeposit_Click);
+            // 
+            // textBoxDeposit
+            // 
+            this.textBoxDeposit.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxDeposit.Location = new System.Drawing.Point(5, 18);
+            this.textBoxDeposit.Name = "textBoxDeposit";
+            this.textBoxDeposit.Size = new System.Drawing.Size(409, 20);
+            this.textBoxDeposit.TabIndex = 0;
+            // 
+            // labelText
+            // 
+            this.labelText.AutoSize = true;
+            this.labelText.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelText.Location = new System.Drawing.Point(5, 5);
+            this.labelText.Name = "labelText";
+            this.labelText.Size = new System.Drawing.Size(92, 13);
+            this.labelText.TabIndex = 1;
+            this.labelText.Text = "Amount to deposit";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Location = new System.Drawing.Point(5, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Address";
+            // 
+            // textBoxAddress
+            // 
+            this.textBoxAddress.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxAddress.Location = new System.Drawing.Point(5, 51);
+            this.textBoxAddress.Name = "textBoxAddress";
+            this.textBoxAddress.Size = new System.Drawing.Size(409, 20);
+            this.textBoxAddress.TabIndex = 6;
             // 
             // FormDeposit
             // 
@@ -128,5 +150,7 @@ namespace EBanking
         private System.Windows.Forms.Button buttonDeposit;
         public System.Windows.Forms.TextBox textBoxDeposit;
         public System.Windows.Forms.Label labelText;
+        private System.Windows.Forms.TextBox textBoxAddress;
+        private System.Windows.Forms.Label label1;
     }
 }

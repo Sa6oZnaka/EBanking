@@ -106,21 +106,18 @@ namespace EBanking
 
         private void buttonDeposit_Click(object sender, EventArgs e)
         {
-            if (listViewAccounts.SelectedItems.Count != 1)
-            {
-                MessageBox.Show("Select user account first!");
-                return;
-            }
+            string address = "";
+            if (listViewAccounts.SelectedItems.Count == 1)
+                address = listViewAccounts.SelectedItems[0].SubItems[1].Text;
 
-            if(! Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
-                throw new Exception("Can't parse user account key!");
+            var fp = new FormDeposit(address, _userID, _users);
+            fp.Show();
+            fp.FormClosing += new FormClosingEventHandler(RefreshUserAccounts);
+        }
 
-            var fp = new FormDeposit();
-            if (fp.ShowDialog() == DialogResult.OK)
-            {
-                _users.UserAccounts.deposit(key, fp.Amount);
-                refreshUserAccounts();
-            }
+        private void RefreshUserAccounts(object sender, FormClosingEventArgs e)
+        {
+            refreshUserAccounts();
         }
 
         private void buttonWithdraw_Click(object sender, EventArgs e)
