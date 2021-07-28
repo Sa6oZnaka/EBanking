@@ -50,6 +50,7 @@ namespace EBanking
             this.buttonSend.TabIndex = 0;
             this.buttonSend.Text = "Send";
             this.buttonSend.UseVisualStyleBackColor = true;
+            this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
             // label1
             // 
@@ -120,6 +121,7 @@ namespace EBanking
             this.Controls.Add(this.panel1);
             this.Name = "FormTransfer";
             this.Text = "FormTransfer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTransfer_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

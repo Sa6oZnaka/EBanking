@@ -32,6 +32,18 @@ namespace EBanking
         private void refreshUserAccounts()
         {
             List<UserAccount> accounts = _users.UserAccounts.All.FindAll(ua => ua.UserId == _userID);
+
+            // add new account if user doesn't have any accounts
+            if (accounts.Count == 0)
+            {
+                var fp = new FormAccount();
+                if (fp.ShowDialog() == DialogResult.OK)
+                {
+                    _users.UserAccounts.add(fp.AccountName, _userID);
+                    accounts = _users.UserAccounts.All.FindAll(ua => ua.UserId == _userID);
+                }
+            }
+            
             this.listViewAccounts.Items.Clear();
 
             foreach (UserAccount acc in accounts)
@@ -59,7 +71,7 @@ namespace EBanking
                 (acc, tx) =>
                     tx);
 
-            userTransactions = userTransactions.OrderBy(tx => tx.EventDate);
+            userTransactions = userTransactions.OrderBy(tx => tx.EventDate).Reverse();
             this.listViewTransactions.Items.Clear();
 
             foreach (Transaction tx in userTransactions)
@@ -78,16 +90,10 @@ namespace EBanking
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var fp = new FormTextBox();
-            fp.labelText.Text = "Enter account name";
+            var fp = new FormAccount();
             if(fp.ShowDialog() == DialogResult.OK)
             {
-                if (string.IsNullOrEmpty(fp.textBox1.Text))
-                {
-                    MessageBox.Show("Name can't be empty!");
-                    return;
-                }
-                _users.UserAccounts.add(fp.textBox1.Text, _userID);
+                _users.UserAccounts.add(fp.AccountName, _userID);
             }
 
             refreshUserAccounts();
@@ -109,21 +115,10 @@ namespace EBanking
             if(! Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
                 throw new Exception("Can't parse user account key!");
 
-            var fp = new FormTextBox();
-            fp.labelText.Text = "Enter amount you want to deposit";
+            var fp = new FormDeposit();
             if (fp.ShowDialog() == DialogResult.OK)
             {
-                if (string.IsNullOrEmpty(fp.textBox1.Text))
-                {
-                    MessageBox.Show("Amount can't be empty!");
-                    return;
-                }
-                if (! decimal.TryParse(fp.textBox1.Text, out decimal amount) && amount <= 0)
-                {
-                    MessageBox.Show("Invalid amount!");
-                    return;
-                }
-                _users.UserAccounts.deposit(key, amount);
+                _users.UserAccounts.deposit(key, fp.Amount);
                 refreshUserAccounts();
             }
         }
@@ -139,27 +134,10 @@ namespace EBanking
             if (!Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
                 throw new Exception("Can't parse user account key!");
 
-            var fp = new FormTextBox();
-            fp.labelText.Text = "Enter amount you want to withdraw";
+            var fp = new FormWithdraw(Decimal.Add(_users.UserAccounts.getUserBalance(key), -_users.UserAccounts.WithdrawFee));
             if (fp.ShowDialog() == DialogResult.OK)
             {
-                if (string.IsNullOrEmpty(fp.textBox1.Text))
-                {
-                    MessageBox.Show("Amount can't be empty!");
-                    return;
-                }
-                if (!decimal.TryParse(fp.textBox1.Text, out decimal amount) && amount <= 0)
-                {
-                    MessageBox.Show("Invalid amount!");
-                    return;
-                }
-                if(Decimal.Add(_users.UserAccounts.getUserBalance(key) , -_users.UserAccounts.WithdrawFee) < amount)
-                {
-                    MessageBox.Show("Insufficient funds!");
-                    return;
-                }
-
-                _users.UserAccounts.withdraw(key, amount);
+                _users.UserAccounts.withdraw(key, fp.Amount);
                 refreshUserAccounts();
             }
         }
@@ -175,39 +153,9 @@ namespace EBanking
             if (!Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
                 throw new Exception("Can't parse user account key!");
 
-            var fp = new FormTransfer();
+            var fp = new FormTransfer(_users, key);
             if(fp.ShowDialog() == DialogResult.OK){
-
-                // check address
-                if (!Guid.TryParse(fp.textBoxAddress.Text, out Guid receiverKey))
-                {
-                    MessageBox.Show("Can't parse user receiver address!");
-                    return;
-                }
-                if (!_users.UserAccounts.userAccoutExist(receiverKey))
-                {
-                    MessageBox.Show("Receiver address doesn't exist!");
-                    return;
-                }
-
-                // check if amount is valid
-                if (string.IsNullOrEmpty(fp.textBoxAmount.Text))
-                {
-                    MessageBox.Show("Amount can't be empty!");
-                    return;
-                }
-                if (!decimal.TryParse(fp.textBoxAmount.Text, out decimal amount) && amount <= 0)
-                {
-                    MessageBox.Show("Invalid amount!");
-                    return;
-                }
-                if (Decimal.Add(_users.UserAccounts.getUserBalance(key), -amount) < 0)
-                {
-                    MessageBox.Show("Insufficient funds!");
-                    return;
-                }
-
-                _users.UserAccounts.sendToUser(key, receiverKey, amount);
+                _users.UserAccounts.sendToUser(key, fp.Address, fp.Amount);
                 refreshUserAccounts();
             }
         }

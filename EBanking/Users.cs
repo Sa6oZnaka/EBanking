@@ -147,7 +147,7 @@ namespace EBanking
         {
             if (password.Length < 8)
                 throw new InvalidOperationException("Password length must be more than 8 characters!");
-            if(password.Any(p => char.IsLetter(p)) && password.Any(p => char.IsDigit(p)))
+            if(! password.All(Char.IsLetterOrDigit))
                 throw new InvalidOperationException("Password must contain at least 1 character and letter!");
         }
 

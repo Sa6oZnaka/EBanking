@@ -47,11 +47,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EBank.cs" />
+    <Compile Include="FormAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAccount.Designer.cs">
+      <DependentUpon>FormAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAccounts.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormAccounts.Designer.cs">
       <DependentUpon>FormAccounts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDeposit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDeposit.Designer.cs">
+      <DependentUpon>FormDeposit.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
@@ -65,17 +77,17 @@
     <Compile Include="FormRegister.Designer.cs">
       <DependentUpon>FormRegister.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTextBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormTextBox.Designer.cs">
-      <DependentUpon>FormTextBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormTransfer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormTransfer.Designer.cs">
       <DependentUpon>FormTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWithdraw.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWithdraw.Designer.cs">
+      <DependentUpon>FormWithdraw.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,8 +95,14 @@
     <Compile Include="UserAccounts.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="Users.cs" />
+    <EmbeddedResource Include="FormAccount.resx">
+      <DependentUpon>FormAccount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAccounts.resx">
       <DependentUpon>FormAccounts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDeposit.resx">
+      <DependentUpon>FormDeposit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
@@ -92,11 +110,11 @@
     <EmbeddedResource Include="FormRegister.resx">
       <DependentUpon>FormRegister.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTextBox.resx">
-      <DependentUpon>FormTextBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormTransfer.resx">
       <DependentUpon>FormTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWithdraw.resx">
+      <DependentUpon>FormWithdraw.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
