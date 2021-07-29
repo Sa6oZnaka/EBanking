@@ -13,18 +13,18 @@ namespace EBanking
     public partial class FormTransfer : Form
     {
 
-        private Users _users;
-        private Guid _address;
+        private UserAccounts _userAccounts;
+        private Guid _receiverAddress;
         private Guid _senderAddress;
         private decimal _amount;
         private int _userID;
 
-        public FormTransfer(string selected, int userID, Users users)
+        public FormTransfer(string selected, int userID, UserAccounts userAccounts)
         {
             InitializeComponent();
 
             _userID = userID;
-            _users = users;
+            _userAccounts = userAccounts;
             this.textBoxSender.Text = selected;
         }
 
@@ -32,7 +32,7 @@ namespace EBanking
         {
             if (valid())
             {
-                _users.UserAccounts.sendToUser(_senderAddress, _address, _amount);
+                _userAccounts.sendToUser(_senderAddress, _receiverAddress, _amount);
                 this.Close();
             }
 
@@ -52,12 +52,12 @@ namespace EBanking
                 MessageBox.Show("Can't parse user receiver address!");
                 return false;
             }
-            if (!_users.UserAccounts.userAccoutExist(receiverKey))
+            if (! _userAccounts.userAccoutExist(receiverKey))
             {
                 MessageBox.Show("Receiver address doesn't exist!");
                 return false;
             }
-            _address = receiverKey;
+            _receiverAddress = receiverKey;
 
             // check if amount is valid
             if (string.IsNullOrEmpty(this.textBoxAmount.Text))
@@ -84,18 +84,18 @@ namespace EBanking
                 MessageBox.Show("Invalid address!");
                 return false;
             }
-            if (!_users.UserAccounts.userAccoutExist(address))
+            if (!_userAccounts.userAccoutExist(address))
             {
                 MessageBox.Show("User account doesn't exist!");
                 return false;
             }
-            if (!_users.UserAccounts.All.Any(ua => ua.Key == address && ua.UserId == _userID))
+            if (!_userAccounts.All.Any(ua => ua.Key == address && ua.UserId == _userID))
             {
                 MessageBox.Show("Can't access user account!");
                 return false;
             }
 
-            if (_users.UserAccounts.getUserBalance(address) < amount)
+            if (_userAccounts.getUserBalance(address) < amount)
             {
                 MessageBox.Show("Insufficient funds!");
                 return false;
@@ -103,7 +103,7 @@ namespace EBanking
 
             _senderAddress = address;
 
-            if (Guid.Equals(_senderAddress, _address))
+            if (Guid.Equals(_senderAddress, _receiverAddress))
             {
                 MessageBox.Show("Can't send to the same address!");
                 return false;

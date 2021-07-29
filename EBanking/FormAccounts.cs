@@ -110,7 +110,7 @@ namespace EBanking
             if (listViewAccounts.SelectedItems.Count == 1)
                 address = listViewAccounts.SelectedItems[0].SubItems[1].Text;
 
-            var fp = new FormDeposit(address, _userID, _users);
+            var fp = new FormDeposit(address, _userID, _users.UserAccounts);
             fp.Show();
             fp.FormClosing += new FormClosingEventHandler(RefreshUserAccounts);
         }
@@ -126,7 +126,7 @@ namespace EBanking
             if (listViewAccounts.SelectedItems.Count == 1)
                 address = listViewAccounts.SelectedItems[0].SubItems[1].Text;
 
-            var fp = new FormWithdraw(address, _userID, _users);
+            var fp = new FormWithdraw(address, _userID, _users.UserAccounts);
             fp.Show();
             fp.FormClosing += new FormClosingEventHandler(RefreshUserAccounts);
         }
@@ -137,7 +137,7 @@ namespace EBanking
             if (listViewAccounts.SelectedItems.Count == 1)
                 address = listViewAccounts.SelectedItems[0].SubItems[1].Text;
 
-            var fp = new FormTransfer(address, _userID, _users);
+            var fp = new FormTransfer(address, _userID, _users.UserAccounts);
             fp.Show();
             fp.FormClosing += new FormClosingEventHandler(RefreshUserAccounts);
         }

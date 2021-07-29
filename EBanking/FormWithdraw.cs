@@ -13,17 +13,17 @@ namespace EBanking
     public partial class FormWithdraw : Form
     {
 
-        private Users _users;
+        private UserAccounts _userAccounts;
         private decimal _amount;
         private Guid _address;
         private int _userID;
 
-        public FormWithdraw(string address, int userID, Users users)
+        public FormWithdraw(string address, int userID, UserAccounts userAccounts)
         {
             InitializeComponent();
             this.textBoxAddress.Text = address;
 
-            _users = users;
+            _userAccounts = userAccounts;
             _userID = userID;
         }
 
@@ -31,7 +31,7 @@ namespace EBanking
         {
             if (valid())
             {
-                _users.UserAccounts.withdraw(_address, _amount);
+                _userAccounts.withdraw(_address, _amount);
                 this.Close();
             }
         }
@@ -67,18 +67,18 @@ namespace EBanking
                 MessageBox.Show("Invalid address!");
                 return false;
             }
-            if (!_users.UserAccounts.userAccoutExist(address))
+            if (!_userAccounts.userAccoutExist(address))
             {
                 MessageBox.Show("User account doesn't exist!");
                 return false;
             }
-            if (!_users.UserAccounts.All.Any(ua => ua.Key == address && ua.UserId == _userID))
+            if (!_userAccounts.All.Any(ua => ua.Key == address && ua.UserId == _userID))
             {
                 MessageBox.Show("Can't access user account!");
                 return false;
             }
 
-            if ( decimal.Add(_users.UserAccounts.getUserBalance(address), -_users.UserAccounts.WithdrawFee) < amount)
+            if ( decimal.Add(_userAccounts.getUserBalance(address), -_userAccounts.WithdrawFee) < amount)
             {
                 MessageBox.Show("Insufficient funds!");
                 return false;

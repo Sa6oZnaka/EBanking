@@ -13,17 +13,17 @@ namespace EBanking
     public partial class FormDeposit : Form
     {
 
-        private Users _users;
+        private UserAccounts _userAccounts;
         private decimal _amount;
         private Guid _address;
         private int _userID;
 
-        public FormDeposit(string address, int userID, Users users)
+        public FormDeposit(string address, int userID, UserAccounts userAccounts)
         {
             InitializeComponent();
 
             this.textBoxAddress.Text = address;
-            _users = users;
+            _userAccounts = userAccounts;
             _userID = userID;
         }
 
@@ -31,7 +31,7 @@ namespace EBanking
         {
             if(validateAmount() && validateAddress())
             {
-                _users.UserAccounts.deposit(_address, _amount);
+                _userAccounts.deposit(_address, _amount);
                 this.Close();
             }
         }
@@ -71,12 +71,12 @@ namespace EBanking
                 MessageBox.Show("Invalid address!");
                 return false;
             }
-            if (! _users.UserAccounts.userAccoutExist(address))
+            if (! _userAccounts.userAccoutExist(address))
             {
                 MessageBox.Show("User account doesn't exist!");
                 return false;
             }
-            if (! _users.UserAccounts.All.Any(ua => ua.Key == address && ua.UserId == _userID))
+            if (! _userAccounts.All.Any(ua => ua.Key == address && ua.UserId == _userID))
             {
                 MessageBox.Show("Can't access user account!");
                 return false;
