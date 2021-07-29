@@ -133,26 +133,13 @@ namespace EBanking
 
         private void buttonTransfer_Click(object sender, EventArgs e)
         {
-            if (listViewAccounts.SelectedItems.Count != 1)
-            {
-                MessageBox.Show("Select user account first!");
-                return;
-            }
+            string address = "";
+            if (listViewAccounts.SelectedItems.Count == 1)
+                address = listViewAccounts.SelectedItems[0].SubItems[1].Text;
 
-            if (!Guid.TryParse(listViewAccounts.SelectedItems[0].SubItems[1].Text, out Guid key))
-                throw new Exception("Can't parse user account key!");
-
-            if (_users.UserAccounts.getUserBalance(key) == 0)
-            {
-                MessageBox.Show("You can't transfer from this account!");
-                return;
-            }
-
-            var fp = new FormTransfer(_users, key);
-            if(fp.ShowDialog() == DialogResult.OK){
-                _users.UserAccounts.sendToUser(key, fp.Address, fp.Amount);
-                refreshUserAccounts();
-            }
+            var fp = new FormTransfer(address, _userID, _users);
+            fp.Show();
+            fp.FormClosing += new FormClosingEventHandler(RefreshUserAccounts);
         }
     }
 }

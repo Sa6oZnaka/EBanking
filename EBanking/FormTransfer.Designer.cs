@@ -36,6 +36,8 @@ namespace EBanking
             this.textBoxAmount = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textBoxSender = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -90,6 +92,8 @@ namespace EBanking
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.textBoxSender);
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.textBoxAmount);
             this.panel1.Controls.Add(this.label2);
@@ -111,6 +115,24 @@ namespace EBanking
             this.panel2.Padding = new System.Windows.Forms.Padding(3);
             this.panel2.Size = new System.Drawing.Size(462, 40);
             this.panel2.TabIndex = 5;
+            // 
+            // textBoxSender
+            // 
+            this.textBoxSender.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxSender.Location = new System.Drawing.Point(6, 85);
+            this.textBoxSender.Name = "textBoxSender";
+            this.textBoxSender.Size = new System.Drawing.Size(462, 20);
+            this.textBoxSender.TabIndex = 10;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Location = new System.Drawing.Point(6, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(82, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Sender Address";
             // 
             // FormTransfer
             // 
@@ -138,5 +160,7 @@ namespace EBanking
         private System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.TextBox textBoxAddress;
         public System.Windows.Forms.TextBox textBoxAmount;
+        private System.Windows.Forms.TextBox textBoxSender;
+        private System.Windows.Forms.Label label3;
     }
 }
