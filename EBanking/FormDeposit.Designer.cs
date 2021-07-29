@@ -31,12 +31,12 @@ namespace EBanking
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textBoxAddress = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.buttonDeposit = new System.Windows.Forms.Button();
             this.textBoxDeposit = new System.Windows.Forms.TextBox();
             this.labelText = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBoxAddress = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -65,6 +65,24 @@ namespace EBanking
             this.panel2.Padding = new System.Windows.Forms.Padding(5);
             this.panel2.Size = new System.Drawing.Size(419, 320);
             this.panel2.TabIndex = 3;
+            // 
+            // textBoxAddress
+            // 
+            this.textBoxAddress.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxAddress.Location = new System.Drawing.Point(5, 51);
+            this.textBoxAddress.Name = "textBoxAddress";
+            this.textBoxAddress.Size = new System.Drawing.Size(409, 20);
+            this.textBoxAddress.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Location = new System.Drawing.Point(5, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Address";
             // 
             // panel3
             // 
@@ -105,24 +123,6 @@ namespace EBanking
             this.labelText.Size = new System.Drawing.Size(92, 13);
             this.labelText.TabIndex = 1;
             this.labelText.Text = "Amount to deposit";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(5, 38);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Address";
-            // 
-            // textBoxAddress
-            // 
-            this.textBoxAddress.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBoxAddress.Location = new System.Drawing.Point(5, 51);
-            this.textBoxAddress.Name = "textBoxAddress";
-            this.textBoxAddress.Size = new System.Drawing.Size(409, 20);
-            this.textBoxAddress.TabIndex = 6;
             // 
             // FormDeposit
             // 

@@ -30,6 +30,8 @@ namespace EBanking
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textBoxAddress = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.buttonDeposit = new System.Windows.Forms.Button();
             this.textBoxWithdraw = new System.Windows.Forms.TextBox();
@@ -42,6 +44,8 @@ namespace EBanking
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.textBoxAddress);
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.textBoxWithdraw);
             this.panel2.Controls.Add(this.labelText);
@@ -51,6 +55,24 @@ namespace EBanking
             this.panel2.Padding = new System.Windows.Forms.Padding(5);
             this.panel2.Size = new System.Drawing.Size(419, 320);
             this.panel2.TabIndex = 3;
+            // 
+            // textBoxAddress
+            // 
+            this.textBoxAddress.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxAddress.Location = new System.Drawing.Point(5, 51);
+            this.textBoxAddress.Name = "textBoxAddress";
+            this.textBoxAddress.Size = new System.Drawing.Size(409, 20);
+            this.textBoxAddress.TabIndex = 8;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Location = new System.Drawing.Point(5, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Address";
             // 
             // panel3
             // 
@@ -128,5 +150,7 @@ namespace EBanking
         public System.Windows.Forms.TextBox textBoxWithdraw;
         public System.Windows.Forms.Label labelText;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox textBoxAddress;
+        private System.Windows.Forms.Label label1;
     }
 }
